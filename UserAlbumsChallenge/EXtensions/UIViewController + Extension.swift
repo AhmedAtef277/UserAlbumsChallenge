@@ -16,3 +16,11 @@ extension UIViewController: ViewControllerType {
         self.navigationController?.pushViewController(viewController, animated: animated)
     }
 }
+
+extension UIViewController {
+    public func showAlert(errorMessage: String) {
+        let alert = UIAlertController(title: "Alert", message: errorMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert,animated: true,completion: nil)
+    }
+}

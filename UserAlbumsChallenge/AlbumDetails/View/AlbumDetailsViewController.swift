@@ -10,13 +10,15 @@ import Combine
 
 class AlbumDetailsViewController: UIViewController {
     
+    // MARK: - Outlets
     @IBOutlet private weak var photoesTitle: UILabel!
     @IBOutlet private weak var photosCollectionView: UICollectionView!
+    
+    // MARK: - Properties
     private let viewModel: AlbumDetailsViewModelType
     private var subscriptions = Set<AnyCancellable>()
-    private var albumPhotosDataSource: [Photo] = []
-    private var filteredPhotos: [Photo] = []
     
+    // MARK: - Init
     init(viewModel: AlbumDetailsViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -26,18 +28,15 @@ class AlbumDetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
     }
-
-    func initializeFilteredPhotos() {
-        filteredPhotos = albumPhotosDataSource
-    }
 }
 
+// MARK: - Setup UI
 private extension AlbumDetailsViewController {
     func setupUI() {
         setupCollectionView()
@@ -49,35 +48,44 @@ private extension AlbumDetailsViewController {
     }
 }
 
+// MARK: - Bind ViewModel
 private extension AlbumDetailsViewController {
     func bindViewModel() {
         bindAlbumPhotos()
+        bindError()
     }
+    
     func bindAlbumPhotos() {
         viewModel.albumPhotosPubliser
             .receive(on: DispatchQueue.main)
             .sink {[weak self] photos in
                 guard let self else { return }
-                albumPhotosDataSource = photos?.0 ?? []
-                initializeFilteredPhotos()
-                photoesTitle.text = photos?.albumTitle
+                photoesTitle.text = viewModel.selectedAlbumTitle
                 photosCollectionView.reloadData()
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func bindError() {
+        viewModel.errorMessagePubliser
+            .receive(on: DispatchQueue.main)
+            .sink {[weak self] error in
+                guard let self, let error else { return }
+                showAlert(errorMessage: error)
             }
             .store(in: &subscriptions)
     }
 }
 
 extension AlbumDetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        filteredPhotos.count
+        viewModel.getFilteredPhotosCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.configure(photoURL: filteredPhotos[indexPath.row].toURL())
+        cell.configure(photoURL: viewModel.getAlbumPhotos(at: indexPath).toURL())
         return cell
         
     }
@@ -86,18 +94,15 @@ extension AlbumDetailsViewController: UICollectionViewDelegate, UICollectionView
         CGSize(width: (collectionView.frame.width / 3), height: collectionView.frame.height / 6)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        0
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        0
-    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat { 0 }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat { 0 }
 }
 
 extension AlbumDetailsViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredPhotos = searchText.isEmpty ? albumPhotosDataSource : albumPhotosDataSource.filter { $0.title.localizedCaseInsensitiveContains(searchText)}
+        viewModel.updateFilteredPhotos(accordingTo: searchText)
         photosCollectionView.reloadData()
     }
 }

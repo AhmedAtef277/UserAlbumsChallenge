@@ -8,6 +8,18 @@
 import Foundation
 import Combine
 
-protocol AlbumDetailsViewModelType {
-    var albumPhotosPubliser: AnyPublisher<([Photo], albumTitle: String)?, Never> { get }
+typealias AlbumDetailsViewModelType = AlbumDetailsViewModelOutputType & AlbumDetailsViewModelInputType
+
+protocol AlbumDetailsViewModelOutputType {
+    var albumPhotosPubliser: AnyPublisher<[Photo]?, Never> { get }
+    var errorMessagePubliser: AnyPublisher<String?, Never> { get }
+    var selectedAlbumTitle: String { get }
+    func getAlbumPhotos(at indexPath: IndexPath) -> Photo
+    func getFilteredPhotosCount() -> Int
+    
 }
+
+protocol AlbumDetailsViewModelInputType {
+    func updateFilteredPhotos(accordingTo searchText: String)
+}
+

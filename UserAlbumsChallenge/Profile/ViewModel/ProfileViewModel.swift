@@ -8,14 +8,18 @@
 import Foundation
 import Combine
 
-final class ProfileViewModel: ProfileViewModelType {
+final class ProfileViewModel {
     
-    private let repository: UserAlbumRepositoryType
-    private let router: ProfileRouterType
+    // MARK: - Properties
     @Published private var userProfile: UserProfile?
     @Published private var userAlbums: [Album]?
+    @Published private var errorMessage: String?
+
+    private let repository: UserAlbumRepositoryType
+    private let router: ProfileRouterType
     private let randomUser = (1...10).randomElement()
     
+    // MARK: - Init
     init(repository: UserAlbumRepositoryType = UserAlbumRepository(),
          router: ProfileRouterType = ProfileRouter()) {
         self.repository = repository
@@ -24,13 +28,14 @@ final class ProfileViewModel: ProfileViewModelType {
         loadUserAlbums()
     }
     
+    // MARK: - Private methods
     private func loadUserProfile() {
         Task { @MainActor in
             do {
                 let userProfile = try await repository.getUserProfile(userId: randomUser ?? 1)
                 self.userProfile = userProfile
             } catch {
-                
+                errorMessage = error.localizedDescription
             }
         }
     }
@@ -41,16 +46,21 @@ final class ProfileViewModel: ProfileViewModelType {
                 let userAlbums = try await repository.getUserAlbums(userId: randomUser ?? 1)
                 self.userAlbums = userAlbums
             } catch {
-                
+                errorMessage = error.localizedDescription
             }
         }
     }
+}
 
-    
+// MARK: - Inputs
+extension ProfileViewModel: ProfileViewModelInputType {
+    func didSelectAlbum(With id: Int, albumTitle: String, source: ViewControllerType) {
+        router.navigateToAlbumPhotos(with: id, albumTitle: albumTitle, source: source)
+    }
 }
 
 // MARK: - Outputs
-extension ProfileViewModel {
+extension ProfileViewModel: ProfileViewModelOtputType {
     var userProfilePubliser: AnyPublisher<UserProfile?, Never> {
         $userProfile
             .eraseToAnyPublisher()
@@ -60,12 +70,14 @@ extension ProfileViewModel {
         $userAlbums
             .eraseToAnyPublisher()
     }
-    func getFullAddress() -> String {
-        "\(userProfile?.address.city ?? "") \(userProfile?.address.street ?? "")"
+    
+    var errorMessagePubliser: AnyPublisher<String?, Never> {
+        $errorMessage
+            .eraseToAnyPublisher()
     }
     
-    func didSelectAlbum(With id: Int, albumTitle: String, source: ViewControllerType) {
-        router.navigateToAlbumPhotos(with: id, albumTitle: albumTitle, source: source)
+    func getFullAddress() -> String {
+        "\(userProfile?.address.city ?? "") \(userProfile?.address.street ?? "")"
     }
     
     func getItem(at indexPath: IndexPath) -> Album? {

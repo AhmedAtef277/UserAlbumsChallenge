@@ -8,9 +8,11 @@
 import UIKit
 
 class AlbumsTableViewCell: UITableViewCell {
-
+    
+    //MARK: - Properties
     static let identifier = String(describing: AlbumsTableViewCell.self)
     
+    //MARK: - LifeCycle
     override func awakeFromNib() {
         super.awakeFromNib()
         self.textLabel?.numberOfLines = 0

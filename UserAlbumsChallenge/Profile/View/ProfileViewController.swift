@@ -74,6 +74,7 @@ private extension ProfileViewController {
     func bindViewModel() {
         bindUserProfile()
         bindUserAlbums()
+        bindError()
     }
     
     func bindUserProfile() {
@@ -93,6 +94,16 @@ private extension ProfileViewController {
             .sink {[weak self] albums in
                 guard let self else { return }
                 albumsTableView.reloadData()
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func bindError() {
+        viewModel.errorMessagePubliser
+            .receive(on: DispatchQueue.main)
+            .sink {[weak self] error in
+                guard let self, let error else { return }
+                    showAlert(errorMessage: error)
             }
             .store(in: &subscriptions)
     }

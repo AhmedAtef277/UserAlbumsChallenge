@@ -92,6 +92,7 @@
 		048D99922D16007B00C8373C /* UserAlbumsChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				0490721B2D17498D00EB4558 /* EXtensions */,
 				048D99CD2D160DAE00C8373C /* NetworkManager */,
 				048D99C32D16011800C8373C /* Profile */,
 				048D99E62D16B47200C8373C /* AlbumDetails */,
@@ -100,7 +101,6 @@
 				048D999C2D16007E00C8373C /* Assets.xcassets */,
 				048D999E2D16007E00C8373C /* LaunchScreen.storyboard */,
 				048D99A12D16007E00C8373C /* Info.plist */,
-				048D99F02D16B85B00C8373C /* UIViewController + Extension.swift */,
 			);
 			path = UserAlbumsChallenge;
 			sourceTree = "<group>";
@@ -197,6 +197,14 @@
 				048D99F42D16BE9E00C8373C /* PhotoCollectionViewCell.xib */,
 			);
 			path = PhotoCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		0490721B2D17498D00EB4558 /* EXtensions */ = {
+			isa = PBXGroup;
+			children = (
+				048D99F02D16B85B00C8373C /* UIViewController + Extension.swift */,
+			);
+			path = EXtensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
