@@ -1,8 +1,8 @@
 //
-//  NetworkManager.swift
+//  NetworkManagerWrapper.swift
 //  UserAlbumsChallenge
 //
-//  Created by mac on 20/12/2024.
+//  Created by mac on 22/12/2024.
 //
 
 import Foundation

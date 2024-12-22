@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 final class PhotoCollectionViewCell: UICollectionViewCell {
     
@@ -19,15 +18,11 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     //MARK: - LifeCycle
     override func prepareForReuse() {
         super.prepareForReuse()
-        photoImageView.kf.cancelDownloadTask()
+        photoImageView.cancelLoad()
         photoImageView.image = nil
     }
     
     func configure(photoURL: URL) {
-        photoImageView.kf.indicatorType = .activity
-        photoImageView.kf.setImage(with: photoURL, options: [.retryStrategy(DelayRetryStrategy(
-            maxRetryCount: 5,
-            retryInterval: .seconds(3)
-          ))])
+        photoImageView.loadImage(from: photoURL)
     }
 }

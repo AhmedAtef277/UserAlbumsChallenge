@@ -14,6 +14,7 @@ final class ProfileViewModel {
     @Published private var userProfile: UserProfile?
     @Published private var userAlbums: [Album]?
     @Published private var errorMessage: String?
+    @Published private var isLoading: Bool = false
 
     private let repository: UserAlbumRepositoryType
     private let router: ProfileRouterType
@@ -32,6 +33,8 @@ final class ProfileViewModel {
     private func loadUserProfile() {
         Task { @MainActor in
             do {
+                isLoading = true
+                defer { isLoading = false }
                 let userProfile = try await repository.getUserProfile(userId: randomUser ?? 1)
                 self.userProfile = userProfile
             } catch {
@@ -43,6 +46,8 @@ final class ProfileViewModel {
     private func loadUserAlbums() {
         Task { @MainActor in
             do {
+                isLoading = true
+                defer { isLoading = false }
                 let userAlbums = try await repository.getUserAlbums(userId: randomUser ?? 1)
                 self.userAlbums = userAlbums
             } catch {
@@ -61,18 +66,23 @@ extension ProfileViewModel: ProfileViewModelInputType {
 
 // MARK: - Outputs
 extension ProfileViewModel: ProfileViewModelOtputType {
-    var userProfilePubliser: AnyPublisher<UserProfile?, Never> {
+    var userProfilePublisher: AnyPublisher<UserProfile?, Never> {
         $userProfile
             .eraseToAnyPublisher()
     }
     
-    var userAlbumsPubliser: AnyPublisher<[Album]?, Never> {
+    var userAlbumsPublisher: AnyPublisher<[Album]?, Never> {
         $userAlbums
             .eraseToAnyPublisher()
     }
     
-    var errorMessagePubliser: AnyPublisher<String?, Never> {
+    var errorMessagePublisher: AnyPublisher<String?, Never> {
         $errorMessage
+            .eraseToAnyPublisher()
+    }
+    
+    var isLoadingPublisher: AnyPublisher<Bool, Never> {
+        $isLoading
             .eraseToAnyPublisher()
     }
     

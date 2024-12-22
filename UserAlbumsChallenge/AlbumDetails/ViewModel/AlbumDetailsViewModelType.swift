@@ -11,8 +11,8 @@ import Combine
 typealias AlbumDetailsViewModelType = AlbumDetailsViewModelOutputType & AlbumDetailsViewModelInputType
 
 protocol AlbumDetailsViewModelOutputType {
-    var albumPhotosPubliser: AnyPublisher<[Photo]?, Never> { get }
-    var errorMessagePubliser: AnyPublisher<String?, Never> { get }
+    var albumPhotosPublisher: AnyPublisher<[Photo]?, Never> { get }
+    var errorMessagePublisher: AnyPublisher<String?, Never> { get }
     var selectedAlbumTitle: String { get }
     func getAlbumPhotos(at indexPath: IndexPath) -> Photo
     func getFilteredPhotosCount() -> Int

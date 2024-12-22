@@ -59,12 +59,12 @@ extension AlbumDetailsViewModel: AlbumDetailsViewModelInputType {
 
 // MARK: - Outputs
 extension AlbumDetailsViewModel: AlbumDetailsViewModelOutputType {
-    var albumPhotosPubliser: AnyPublisher<[Photo]?, Never> {
+    var albumPhotosPublisher: AnyPublisher<[Photo]?, Never> {
         $albumPhotos
             .eraseToAnyPublisher()
     }
     
-    var errorMessagePubliser: AnyPublisher<String?, Never> {
+    var errorMessagePublisher: AnyPublisher<String?, Never> {
         $errorMessage
             .eraseToAnyPublisher()
     }

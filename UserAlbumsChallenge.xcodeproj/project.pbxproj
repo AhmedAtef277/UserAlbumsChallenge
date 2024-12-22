@@ -17,7 +17,6 @@
 		048D99CC2D16061800C8373C /* AlbumsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 048D99CA2D16061800C8373C /* AlbumsTableViewCell.xib */; };
 		048D99CF2D160DEE00C8373C /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D99CE2D160DEE00C8373C /* APIService.swift */; };
 		048D99D22D160F9D00C8373C /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 048D99D12D160F9D00C8373C /* Moya */; };
-		048D99D42D16101D00C8373C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D99D32D16101D00C8373C /* NetworkManager.swift */; };
 		048D99D62D16107B00C8373C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D99D52D16107B00C8373C /* Models.swift */; };
 		048D99DD2D16A43200C8373C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D99DC2D16A43200C8373C /* ProfileViewModel.swift */; };
 		048D99DF2D16A44500C8373C /* ProfileViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D99DE2D16A44500C8373C /* ProfileViewModelType.swift */; };
@@ -31,6 +30,8 @@
 		048D99F52D16BE9E00C8373C /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D99F32D16BE9E00C8373C /* PhotoCollectionViewCell.swift */; };
 		048D99F62D16BE9E00C8373C /* PhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 048D99F42D16BE9E00C8373C /* PhotoCollectionViewCell.xib */; };
 		0490721A2D16C9FF00EB4558 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 049072192D16C9FF00EB4558 /* Kingfisher */; };
+		0490722A2D17E11000EB4558 /* KingfisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049072292D17E11000EB4558 /* KingfisherWrapper.swift */; };
+		0490722D2D17E1A900EB4558 /* NetworkManagerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490722C2D17E1A900EB4558 /* NetworkManagerWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +46,6 @@
 		048D99C92D16061800C8373C /* AlbumsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsTableViewCell.swift; sourceTree = "<group>"; };
 		048D99CA2D16061800C8373C /* AlbumsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlbumsTableViewCell.xib; sourceTree = "<group>"; };
 		048D99CE2D160DEE00C8373C /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		048D99D32D16101D00C8373C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		048D99D52D16107B00C8373C /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		048D99DC2D16A43200C8373C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		048D99DE2D16A44500C8373C /* ProfileViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModelType.swift; sourceTree = "<group>"; };
@@ -58,6 +58,8 @@
 		048D99F02D16B85B00C8373C /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		048D99F32D16BE9E00C8373C /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		048D99F42D16BE9E00C8373C /* PhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCollectionViewCell.xib; sourceTree = "<group>"; };
+		049072292D17E11000EB4558 /* KingfisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingfisherWrapper.swift; sourceTree = "<group>"; };
+		0490722C2D17E1A900EB4558 /* NetworkManagerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		048D99922D16007B00C8373C /* UserAlbumsChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				0490722B2D17E11400EB4558 /* Wrappers */,
 				0490721B2D17498D00EB4558 /* EXtensions */,
 				048D99CD2D160DAE00C8373C /* NetworkManager */,
 				048D99C32D16011800C8373C /* Profile */,
@@ -129,7 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				048D99CE2D160DEE00C8373C /* APIService.swift */,
-				048D99D32D16101D00C8373C /* NetworkManager.swift */,
 				048D99D52D16107B00C8373C /* Models.swift */,
 				048D99E02D16A4B300C8373C /* UserAlbumRepository.swift */,
 			);
@@ -205,6 +207,15 @@
 				048D99F02D16B85B00C8373C /* UIViewController + Extension.swift */,
 			);
 			path = EXtensions;
+			sourceTree = "<group>";
+		};
+		0490722B2D17E11400EB4558 /* Wrappers */ = {
+			isa = PBXGroup;
+			children = (
+				049072292D17E11000EB4558 /* KingfisherWrapper.swift */,
+				0490722C2D17E1A900EB4558 /* NetworkManagerWrapper.swift */,
+			);
+			path = Wrappers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,7 +302,6 @@
 			files = (
 				048D99EC2D16B52000C8373C /* AlbumDetailsViewModelType.swift in Sources */,
 				048D99F12D16B85B00C8373C /* UIViewController + Extension.swift in Sources */,
-				048D99D42D16101D00C8373C /* NetworkManager.swift in Sources */,
 				048D99EA2D16B51100C8373C /* AlbumDetailsViewModel.swift in Sources */,
 				048D99C62D16015700C8373C /* ProfileViewController.swift in Sources */,
 				048D99E12D16A4B300C8373C /* UserAlbumRepository.swift in Sources */,
@@ -300,6 +310,8 @@
 				048D99DF2D16A44500C8373C /* ProfileViewModelType.swift in Sources */,
 				048D99F52D16BE9E00C8373C /* PhotoCollectionViewCell.swift in Sources */,
 				048D99942D16007B00C8373C /* AppDelegate.swift in Sources */,
+				0490722A2D17E11000EB4558 /* KingfisherWrapper.swift in Sources */,
+				0490722D2D17E1A900EB4558 /* NetworkManagerWrapper.swift in Sources */,
 				048D99962D16007B00C8373C /* SceneDelegate.swift in Sources */,
 				048D99CB2D16061800C8373C /* AlbumsTableViewCell.swift in Sources */,
 				048D99DD2D16A43200C8373C /* ProfileViewModel.swift in Sources */,

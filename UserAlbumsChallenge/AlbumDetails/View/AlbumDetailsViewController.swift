@@ -56,7 +56,7 @@ private extension AlbumDetailsViewController {
     }
     
     func bindAlbumPhotos() {
-        viewModel.albumPhotosPubliser
+        viewModel.albumPhotosPublisher
             .receive(on: DispatchQueue.main)
             .sink {[weak self] photos in
                 guard let self else { return }
@@ -67,7 +67,7 @@ private extension AlbumDetailsViewController {
     }
     
     func bindError() {
-        viewModel.errorMessagePubliser
+        viewModel.errorMessagePublisher
             .receive(on: DispatchQueue.main)
             .sink {[weak self] error in
                 guard let self, let error else { return }

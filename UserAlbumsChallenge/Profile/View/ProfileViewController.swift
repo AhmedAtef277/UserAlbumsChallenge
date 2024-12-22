@@ -15,6 +15,8 @@ final class ProfileViewController: UIViewController {
     @IBOutlet weak private var userAddressLabel: UILabel!
     @IBOutlet weak private var albumsTableView: UITableView!
     
+    private var activityIndicator: UIActivityIndicatorView!
+    
     // MARK: - Properties
     private let viewModel: ProfileViewModelType
     private var subscriptions = Set<AnyCancellable>()
@@ -41,6 +43,7 @@ final class ProfileViewController: UIViewController {
 private extension ProfileViewController {
     func setupUI() {
         setupTableView()
+        setupActivityIndicator()
     }
     
     func setupTableView() {
@@ -48,6 +51,13 @@ private extension ProfileViewController {
         albumsTableView.delegate = self
         albumsTableView.register(UINib(nibName: AlbumsTableViewCell.identifier, bundle: nil),
                                  forCellReuseIdentifier: AlbumsTableViewCell.identifier)
+    }
+    
+    private func setupActivityIndicator() {
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
     }
 }
 
@@ -75,10 +85,11 @@ private extension ProfileViewController {
         bindUserProfile()
         bindUserAlbums()
         bindError()
+        bindLoader()
     }
     
     func bindUserProfile() {
-        viewModel.userProfilePubliser
+        viewModel.userProfilePublisher
             .receive(on: DispatchQueue.main)
             .sink {[weak self] userProfile in
                 guard let self else { return }
@@ -89,7 +100,7 @@ private extension ProfileViewController {
     }
     
     func bindUserAlbums() {
-        viewModel.userAlbumsPubliser
+        viewModel.userAlbumsPublisher
             .receive(on: DispatchQueue.main)
             .sink {[weak self] albums in
                 guard let self else { return }
@@ -99,11 +110,21 @@ private extension ProfileViewController {
     }
     
     func bindError() {
-        viewModel.errorMessagePubliser
+        viewModel.errorMessagePublisher
             .receive(on: DispatchQueue.main)
             .sink {[weak self] error in
                 guard let self, let error else { return }
                     showAlert(errorMessage: error)
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func bindLoader() {
+        viewModel.isLoadingPublisher
+            .receive(on: DispatchQueue.main)
+            .sink {[weak self] isloading in
+                guard let self else { return }
+                isloading ? activityIndicator?.startAnimating() : activityIndicator?.stopAnimating()
             }
             .store(in: &subscriptions)
     }
